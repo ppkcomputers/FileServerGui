@@ -1,7 +1,7 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-# Resolve directory of this script so path references stay robust
-SCRIPT_DIR="${0:A:h}"
+# Resolve directory of this script using standard POSIX methods
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 QML_FILE="${SCRIPT_DIR}/server-gui.qml"
 
 # Move process execution into the script directory
