@@ -2,7 +2,7 @@
 OSD that shows all shared folders on a lan
 # Quickshell SMB File Server OSD
 
-![App Screenshot](./pic.png)
+<img src="./pic.png" alt="App Screenshot" width="800">
 
 A lightweight, high-performance On-Screen Display (OSD) overlay built with Quickshell and QML for Arch Linux and Wayland environments (Hyprland). It dynamically discovers active SMB shares across your local network segment, allows single/multi-host authentication persistence, and supports double-click file previewing alongside cross-host drag-and-drop file transfers.
 
