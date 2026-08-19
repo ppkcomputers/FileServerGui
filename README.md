@@ -9,6 +9,7 @@ A lightweight, high-performance On-Screen Display (OSD) overlay built with Quick
 ## Programs needed for this osd 
 ```bash
 sudo pacman -S --needed quickshell nmap smbclient iproute2 gawk coreutils procps-ng xdg-utils
+
 ```
 
 ## hyprland.lua keybinding 
@@ -20,4 +21,4 @@ Run this command in your terminal to automatically pull down the setup files and
 
 ```bash
 mkdir -p ~/.config/Quickshell/FileServerGui && curl -sSL https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/server-gui.qml -o ~/.config/Quickshell/FileServerGui/server-gui.qml && curl -sSL https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/toggle.sh -o ~/.config/Quickshell/FileServerGui/toggle.sh && chmod +x ~/.config/Quickshell/FileServerGui/toggle.sh
-
+```
