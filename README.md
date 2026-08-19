@@ -10,3 +10,6 @@ Run this command in your terminal to automatically pull down the setup files and
 
 ```bash
 curl -sSL [https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/install.sh](https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/install.sh) -o /tmp/install.sh && zsh /tmp/install.sh && rm /tmp/install.sh
+
+## hyprland.lua keybinding
+hl.bind("SUPER + L", hl.dsp.exec_cmd("~/.config/Quickshell/FileServerGui/toggle.sh"))
