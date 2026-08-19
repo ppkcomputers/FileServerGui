@@ -15,7 +15,7 @@ ShellRoot {
 
     // Component initialization: Load per-host creds from cred.conf
     Component.onCompleted: {
-        credLoader.command = ["zsh", "-c", `cd "${root.configDir}" && if [ -f cred.conf ]; then cat cred.conf; fi`];
+        credLoader.command = ["sh", "-c", `cd "${root.configDir}" && if [ -f cred.conf ]; then cat cred.conf; fi`];
         credLoader.running = true;
     }
 
@@ -58,7 +58,7 @@ ShellRoot {
                     echo "${ip}=${user}:${pass}" >> "$file"
                     fi
                     `;
-                command = ["zsh", "-c", script];
+                command = ["sh", "-c", script];
                 running = true;
         }
     }
@@ -681,7 +681,7 @@ ShellRoot {
             function startScanner() {
                 window.isScanningHosts = true;
                 command = [
-                    "zsh", "-c",
+                    "sh", "-c",
                     `dev=$(ip route show default | awk '{print $5}'); ` +
                     `ip_prefix=$(ip -o -4 addr show "$dev" | awk '{print $4}' | cut -d/ -f1 | cut -d. -f1-3); ` +
                     `nmap -n -Pn -p 445 --open "$ip_prefix.0/24" -oG - | awk '/Up$/ {print $2}'`
@@ -737,7 +737,7 @@ ShellRoot {
                 let credArgs = (user === "" && pass === "") ? "-N" : `-U "${user}%${pass}"`;
 
                 command = [
-                    "zsh", "-c",
+                    "sh", "-c",
                     `smbclient -L "//${ip}" ${credArgs} -g 2>&1 | grep "^Disk|" | cut -d'|' -f2`
                 ];
                 console.log(`[DEBUG] Executing shareScanner for host ${ip}...`);
@@ -802,7 +802,7 @@ ShellRoot {
                 let cdCmd = subPath ? `cd "${subPath}"; ` : "";
 
                 command = [
-                    "zsh", "-c",
+                    "sh", "-c",
                     `smbclient "//${host}/${share}" ${credArgs} -c '${cdCmd}dir *' 2>/dev/null | awk 'NF>=2 && $1 != "." && $1 != ".." && $1 != "BLOCKS" {is_dir = ($0 ~ /\\<D\\>|\\<DIR\\>/) ? "1" : "0"; print $1 "|" is_dir}'`
                 ];
                 console.log(`[DEBUG] Fetching contents for //${host}/${share}/${subPath}...`);
@@ -838,7 +838,7 @@ ShellRoot {
                 let cdCmd = subPath ? `cd "${subPath}"; ` : "";
 
                 command = [
-                    "zsh", "-c",
+                    "sh", "-c",
                     `smbclient "//${host}/${share}" ${credArgs} -c '${cdCmd}get "${fileName}" "${localPath}"' 2>/dev/null`
                 ];
                 console.log(`[DEBUG] Fetching file //${host}/${share}/${subPath}/${fileName} to ${localPath}...`);
@@ -855,8 +855,8 @@ ShellRoot {
                         exit 0
                         fi
 
-                        editors=("zed" "code" "kate" "kwrite" "gnome-text-editor" "nvim" "nano")
-                        for ed in "\${editors[@]}"; do
+                        editors="zed code kate kwrite gnome-text-editor nvim nano"
+                        for ed in $editors; do
                             if command -v "$ed" >/dev/null 2>&1; then
                                 case "$ed" in
                                 nvim|nano)
@@ -879,7 +879,7 @@ ShellRoot {
                                     done
                                     `;
 
-                                    editorLauncher.command = ["zsh", "-c", script];
+                                    editorLauncher.command = ["sh", "-c", script];
                                     editorLauncher.running = true;
                 } else {
                     console.log("[DEBUG] Failed to download remote file for opening.");
@@ -927,7 +927,7 @@ ShellRoot {
                 let tmpFile = `/tmp/drag_smb_${sourceObj.name}`;
 
                 command = [
-                    "zsh", "-c",
+                    "sh", "-c",
                     `smbclient "//${sourceObj.host}/${sourceObj.share}" ${srcCreds} -c '${srcCd}get "${sourceObj.name}" "${tmpFile}"' 2>&1 | stdbuf -oL tr '\\r' '\\n' && ` +
                     `echo "---PHASE2---" && ` +
                     `smbclient "//${toHost}/${toShare}" ${dstCreds} -c '${dstCd}put "${tmpFile}" "${sourceObj.name}"' 2>&1 | stdbuf -oL tr '\\r' '\\n' && ` +
