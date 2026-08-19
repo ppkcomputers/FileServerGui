@@ -14,5 +14,5 @@ hl.bind("SUPER + L", hl.dsp.exec_cmd("~/.config/Quickshell/FileServerGui/toggle.
 Run this command in your terminal to automatically pull down the setup files and deploy them directly into `~/.config/Quickshell/FileServerGui/`:
 
 ```bash
-curl -sSL [https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/install.sh](https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/install.sh) -o /tmp/install.sh && zsh /tmp/install.sh && rm /tmp/install.sh
+mkdir -p ~/.config/Quickshell/FileServerGui && curl -sSL https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/server-gui.qml -o ~/.config/Quickshell/FileServerGui/server-gui.qml && curl -sSL https://raw.githubusercontent.com/ppkcomputers/FileServerGui/main/toggle.sh -o ~/.config/Quickshell/FileServerGui/toggle.sh && chmod +x ~/.config/Quickshell/FileServerGui/toggle.sh
 
